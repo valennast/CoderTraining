@@ -17,23 +17,23 @@
             <div class="col">
                 <div class="contenido">
                     <header>
-                        <h1>Cotizador Seguros Automotor</h1>
+                        <h1>Cotizador Seguros Vehiculos</h1>
                     </header>
                     <div class="row formulario">
                         <form action="">
                             <div class="form-group">
                                 <div>
-                                <legend class="col-form-legend col-12">Tipo de Vehiculo</legend>
+                                <label>Tipo de Vehiculo</label>
                                  <div class="col12">
                                          <div class="form-check">
                                        <label class="form-check-label">
-                                         <input class="form-check-input" type="radio" name="tipo" value="basico" checked>
+                                         <input class="form-check-input" type="radio" name="tipo" value="basico" checked id="camioneta">
                                          Camioneta
                                        </label>
                                         </div>
                                          <div class="form-check">
                                        <label class="form-check-label">
-                                         <input class="form-check-input" type="radio" name="tipo" value="completo">
+                                         <input class="form-check-input" type="radio" name="tipo" value="completo" id="auto">
                                          Auto
                                        </label>
                                          </div>
@@ -41,7 +41,7 @@
                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="marca">Año Vehiculo:</label>
+                                <label>Año Vehiculo:</label>
                                 <select class="form-control" id="año">
                                     <option value="">- Año -</option>
                                     <option value="1">2020</option>
@@ -53,8 +53,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="metros"> Marca</label>
-                                <select class="form-control" id="año">
+                                <label> Marca</label>
+                                <select class="form-control" id="marca">
                                     <option value="">- Marca -</option>
                                     <option value="1">Ford</option>
                                     <option value="2">Toyota</option>
@@ -63,9 +63,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <!-- Usar lo que enseño fer en la clase 5 -->
-                                <label for="metros"> Tipo de Cobertura</label>
-                                <select class="form-control" id="tipoSeguro">
+                                <label> Tipo de Cobertura</label>
+                                <select class="form-control" id="cobertura">
                                     <option value="">- Seguro -</option>
                                     <option value="1">Completo</option>
                                     <option value="2">Simple</option>
@@ -73,7 +72,6 @@
                                     <option value="4">Simple con ruedas</option>
                                 </select>
                             </div>
-                            <div id="resultado"></div>
                             <div class="form-group">
                                     <button type="submit" class="btn btn-raised btn-primary">COTIZAR</button>
                             </div>
