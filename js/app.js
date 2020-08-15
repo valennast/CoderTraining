@@ -1,33 +1,36 @@
 
-/* var tiposAuto=['Camioneta','Auto'];
-var años = [2015,2016,2017,2018,2019,2020];
-var marca = ['Ford','Toyota','Peugeot','Volkswagen'];
-var cobertura = ['Completo','Simple','Simple con granizo','Simple con ruedas']; */
+/* Variables a Utilizar */
 
+/* Variables para crear el objeto */
+var precioTipoVehiculo;
+var precioañoModelo;
+var precioMarcaVehiculo;
+var precioCoberturaVehiculo;
+
+/* Objeto */
 class Seguro {
     constructor(tipoDeVehiculo, añoModelo, marca, cobertura) {
-        this.tipoDeVehiculo = tipoDeVehiculo;
-        this.añoModelo = añoModelo;
-        this.marca = marca;
-        this.cobertura = cobertura;
+        this.precioTipoVehiculo = tipoDeVehiculo;
+        this.precioañoModelo = añoModelo;
+        this.precioMarcaVehiculo = marca;
+        this.precioCoberturaVehiculo = cobertura;
     }
 }
-
-var tipoDeVehiculo1;
-var añoModelo1;
-var marca1;
-var cobertura;
-
+/* Prueba */
 crearPoliza();
 
+
 function completarFormulario(){
-    var tipoDeVehiculo1 = prompt('Ingrese el tipo del vehiculo que va cotizar');
-    var añoModelo1 = prompt('Ingrese el año del vehiculo que va cotizar');
-    var marca1 = prompt('Ingrese la marca del vehiculo que va cotizar');
-    var cobertura = prompt('Ingrese la cobertura del vehiculo que va cotizar');
+    precioTipoVehiculo = prompt('Ingrese el tipo del vehiculo que va cotizar');
+    precioañoModelo = prompt('Ingrese el año del vehiculo que va cotizar');
+    precioMarcaVehiculo = prompt('Ingrese la marca del vehiculo que va cotizar');
+    precioCoberturaVehiculo = prompt('Ingrese la cobertura del vehiculo que va cotizar');
 }
+
+/* Es una funcion pero debería ser un metodo del objeto para calcular */
 function crearPoliza(){
     completarFormulario();
-    Poliza1 = new Seguro(tipoDeVehiculo1,añoModelo1,marca1,cobertura);
+    Poliza1 = new Seguro(precioTipoVehiculo,precioMarcaVehiculo,precioMarcaVehiculo,precioCoberturaVehiculo);
+    console.log(Poliza1);
 }
 
