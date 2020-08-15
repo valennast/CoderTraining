@@ -16,7 +16,7 @@ class Seguro {
         this.precioCoberturaVehiculo = cobertura;
     }
 }
-/* Prueba */
+/* Pruebas */
 crearPoliza();
 
 
