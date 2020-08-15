@@ -7,7 +7,7 @@ var precioañoModelo;
 var precioMarcaVehiculo;
 var precioCoberturaVehiculo;
 
-/* Objeto*/
+/*  Objeto   */
 class Seguro {
     constructor(tipoDeVehiculo, añoModelo, marca, cobertura) {
         this.precioTipoVehiculo = tipoDeVehiculo;
