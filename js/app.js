@@ -15,7 +15,7 @@ const precioMarcaToyota = 400;
 
 /* Constantes para almacenar los precios segun cobertura */
 
-const precioCoberturaCompleta = 250;
+const precioCoberturaCompleta = 750;
 const precioCoberturaSimple = 300;
 const precioCoberturaSimpleGranizo = 350;
 const precioCoberturaSimpleRuedas = 400;
@@ -23,9 +23,9 @@ const precioCoberturaSimpleRuedas = 400;
 /* Arrays a utilizar para interacturar con el html */
 /* COMPLETO LOS SELECT DEL HTML */
 
-var listadoTiposVehiculos=['Elegir Tipo de Vehiculo','Camioneta','Auto'];
-var listadoMarcaVehiculos=['Elegir Marca','Ford','Toyota','Peugeot','Volkswagen'];
-var listadoCoberturaVehiculos=['Elegir Cobertura','Completo','Simple','Simple con granizo','Simple con ruedas'];
+var listadoTiposVehiculos=['Camioneta','Auto'];
+var listadoMarcaVehiculos=['Ford','Toyota','Peugeot','Volkswagen'];
+var listadoCoberturaVehiculos=['Completo','Simple','Simple con granizo','Simple con ruedas'];
 
 llenarSelects(listadoMarcaVehiculos,"marcaVehiculo");
 llenarSelects(listadoCoberturaVehiculos,"coberturaVehiculo");
@@ -54,24 +54,60 @@ const selectAñiosVehiculo = document.getElementById('añoVehiculo');
 /*  Objeto   */
 class PolizaSeguro {
     constructor(tipoDeVehiculo, añoModelo, marca, cobertura) {
-        this.precioTipoVehiculo = tipoDeVehiculo;
-        this.precioañoModelo = añoModelo;
-        this.precioMarcaVehiculo = marca;
-        this.precioCoberturaVehiculo = cobertura;
+        this.tipoDeVehiculo = tipoDeVehiculo;
+        this.añoVehiculo = añoModelo;
+        this.marcaVehiculo = marca;
+        this.coberturaVehiculo = cobertura;
+    }
+    cotizarSeguro(){
+        
+        let precioTipoVehiculo;
+        let precioañoModelo;
+        let precioMarcaVehiculo;
+        let precioCoberturaVehiculo;
+        let precioTotal;
+
+        if (this.tipoDeVehiculo=='Auto'){
+            precioTipoVehiculo=1000;
+        }else if (this.tipoDeVehiculo=='Camioneta'){
+            precioTipoVehiculo=1500;
+        }else{
+            alert('La opcion elegida no es valida');
+        }
+
+        if (this.marcaVehiculo=='Ford'){
+            precioMarcaVehiculo=precioMarcaFord;
+        }else if(this.marcaVehiculo=='Toyota'){
+            precioMarcaVehiculo=precioMarcaToyota;
+        }else if(this.marcaVehiculo=='Peugeot'){
+            precioMarcaVehiculo=precioMarcaPeugeot;
+        }else if(this.marcaVehiculo=='Volkswagen'){
+            precioMarcaVehiculo=precioMarcaVolkswagen;
+        }else{
+            alert('La opcion elegida no es valida');
+        }
+
+        if (this.coberturaVehiculo=='Completo'){
+            precioCoberturaVehiculo=precioCoberturaCompleta;
+        }else if(this.coberturaVehiculo=='Simple'){
+            precioCoberturaVehiculo=precioCoberturaSimple;
+        }else if(this.coberturaVehiculo=='Simple con granizo'){
+            precioCoberturaVehiculo=precioCoberturaSimpleGranizo;
+        }else if(this.coberturaVehiculo=='Simple con ruedas'){
+            precioCoberturaVehiculo=precioCoberturaSimpleRuedas;
+        }
+
+        return (precioTipoVehiculo+precioMarcaVehiculo+precioCoberturaVehiculo) ;
     }
 }
 
-const formularioPoliza = document.getElementById('cotizar');
+const formularioPoliza = document.getElementById('poliza');
 
-/* formularioPoliza.addEventListener('click', function(){
-    alert('');
-}) */
-
-formularioPoliza.addEventListener('click', function(){
-    
+formularioPoliza.addEventListener('submit', function(e){
+    e.preventDefault();
     const vehiculo = document.getElementById('tipoVehiculo');
     const tipoVehiculoSelect = vehiculo.options[vehiculo.selectedIndex].value;
-    
+
     const año = document.getElementById('añoVehiculo');
     const añoSelect = año.options[año.selectedIndex].value;
     
@@ -80,9 +116,11 @@ formularioPoliza.addEventListener('click', function(){
     
     const cobertura = document.getElementById('coberturaVehiculo');
     const coberturaSelect = cobertura.options[cobertura.selectedIndex].value;
-    
-    /* const poliza = new PolizaSeguro(tipoVehiculoSelect,añoSelect,marcaSelect,coberturaSelect) */
 
+    const poliza = new PolizaSeguro(tipoVehiculoSelect,añoSelect,marcaSelect,coberturaSelect)
 
+    alert(poliza.cotizarSeguro());
+    console.log(poliza.tipoDeVehiculo);
+    console.log(poliza.cotizarSeguro());
     /* alert('Se ha enviado con éxito su poliza'); */
 });
