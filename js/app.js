@@ -1,126 +1,131 @@
 
-/* Variables a Utilizar */
+/* OBJETOS A UTILIZAR */
 
-/* Constantes para almacenar los precios segun tipo de vehiculos */
-
-const precioPorCamioneta= 1500;
-const precioPorAuto= 1000;
-
-/* Constantes para almacenar los precios de las marca */
-
-const precioMarcaFord = 250;
-const precioMarcaPeugeot = 300;
-const precioMarcaVolkswagen = 350;
-const precioMarcaToyota = 400;
-
-/* Constantes para almacenar los precios segun cobertura */
-
-const precioCoberturaCompleta = 750;
-const precioCoberturaSimple = 300;
-const precioCoberturaSimpleGranizo = 350;
-const precioCoberturaSimpleRuedas = 400;
-
-/* Arrays a utilizar para interacturar con el html */
-/* COMPLETO LOS SELECT DEL HTML */
-
-var listadoTiposVehiculos=['Camioneta','Auto'];
-var listadoMarcaVehiculos=['Ford','Toyota','Peugeot','Volkswagen'];
-var listadoCoberturaVehiculos=['Completo','Simple','Simple con granizo','Simple con ruedas'];
-
-llenarSelects(listadoMarcaVehiculos,"marcaVehiculo");
-llenarSelects(listadoCoberturaVehiculos,"coberturaVehiculo");
-llenarSelects(listadoTiposVehiculos,"tipoVehiculo");
-
-function llenarSelects(listadoArray,idListado){
-    const listaHtml = document.getElementById(idListado);
-    for (var i = 0; i < listadoArray.length; i++) {
-        var opcion = document.createElement("option");
-        opcion.value = listadoArray[i];
-        opcion.text = listadoArray[i];
-        listaHtml.appendChild(opcion);
-        }  
+class MarcasVehiculos{
+    constructor(nombreMarca,valorMarca) {
+        this.nombre=nombreMarca;
+        this.valor=valorMarca;
+    }
+    
 }
-/* COMPLETO LOS SELECT DE AÑOS DEL HTML (SOLO QUIERO COTIZAR LOS AUTOS CON UN MAX 5 AÑOS DE ANTIGUEDAD) */
-const max = new Date().getFullYear();
-const min = max - 5;
-const selectAñiosVehiculo = document.getElementById('añoVehiculo');
-      for(let i = max; i > min; i--) {
-           let option = document.createElement('option');
-           option.value = i;
-           option.innerHTML = i;
-           selectAñiosVehiculo.appendChild(option);
-      }      
+class TipoVehiculos{
+    constructor(vehiculo,valorVehiculo){
+        this.nombre=vehiculo;
+        this.valor=valorVehiculo;
+    }
+    
+}
+class TiposCobertura{
+    constructor(cobertura,valorCobertura){
+        this.nombre=cobertura;
+        this.valor=valorCobertura;
+    }
+    
+}
+class AñosModelo{
+    constructor(añoVehiculo,valorAño){
+        this.nombre=añoVehiculo;
+        this.valor=valorAño;
+    }
+        
+}
 
-/*  Objeto   */
 class PolizaSeguro {
-    constructor(tipoDeVehiculo, añoModelo, marca, cobertura) {
-        this.tipoDeVehiculo = tipoDeVehiculo;
-        this.añoVehiculo = añoModelo;
-        this.marcaVehiculo = marca;
-        this.coberturaVehiculo = cobertura;
+    constructor() {
+        this.coberturaVehiculo= new TiposCobertura;
+        this.marcaVehiculo= new MarcasVehiculos;
+        this.añoVehiculo= new AñosModelo;
+        this.tipoVehiculo= new TipoVehiculos;
     }
     cotizarSeguro(){
-        
-        let precioTipoVehiculo;
-        let precioañoModelo;
-        let precioMarcaVehiculo;
-        let precioCoberturaVehiculo;
-        let precioTotal;
-
-        if (this.tipoDeVehiculo=='Auto'){
-            precioTipoVehiculo=1000;
-        }else if (this.tipoDeVehiculo=='Camioneta'){
-            precioTipoVehiculo=1500;
-        }else{
-            alert('La opcion elegida no es valida');
-        }
-
-        if (this.marcaVehiculo=='Ford'){
-            precioMarcaVehiculo=precioMarcaFord;
-        }else if(this.marcaVehiculo=='Toyota'){
-            precioMarcaVehiculo=precioMarcaToyota;
-        }else if(this.marcaVehiculo=='Peugeot'){
-            precioMarcaVehiculo=precioMarcaPeugeot;
-        }else if(this.marcaVehiculo=='Volkswagen'){
-            precioMarcaVehiculo=precioMarcaVolkswagen;
-        }else{
-            alert('La opcion elegida no es valida');
-        }
-
-        if (this.coberturaVehiculo=='Completo'){
-            precioCoberturaVehiculo=precioCoberturaCompleta;
-        }else if(this.coberturaVehiculo=='Simple'){
-            precioCoberturaVehiculo=precioCoberturaSimple;
-        }else if(this.coberturaVehiculo=='Simple con granizo'){
-            precioCoberturaVehiculo=precioCoberturaSimpleGranizo;
-        }else if(this.coberturaVehiculo=='Simple con ruedas'){
-            precioCoberturaVehiculo=precioCoberturaSimpleRuedas;
-        }
-
-        return (precioTipoVehiculo+precioMarcaVehiculo+precioCoberturaVehiculo) ;
+        let totalPoliza;
+        totalPoliza=this.coberturaVehiculo.valor+this.marcaVehiculo.valor+this.añoVehiculo.valor+this.tipoVehiculo.valor;
+        return totalPoliza ;
     }
 }
+/* VARIABLES Y ARRAYS */
+
+ var marcaFord = new MarcasVehiculos('Ford','250');
+ var marcaPeugeot = new MarcasVehiculos('Peugeot','300');
+ var marcaVolkswagen = new MarcasVehiculos('Volkswagen','350');
+ var marcaToyota = new MarcasVehiculos('Toyota','400');
+
+ var listadoMarcasRegistradas=[marcaFord,marcaPeugeot,marcaVolkswagen,marcaToyota];
+
+ var camioneta = new TipoVehiculos ('Camioneta','1500');
+ var auto = new TipoVehiculos ('Auto','1000');   
+
+ var listadoVehiculosRegistrados=[camioneta,auto];
+
+ var coberturaSimple= new TiposCobertura('Simple','300');
+ var coberturaCompleta= new TiposCobertura('Completa','750');
+ var coberturaSimpleGranizo= new TiposCobertura('Simple con granizo','350');
+ var coberturaSimpleRuedas= new TiposCobertura('Simple con ruedas','400');
+
+ var listadoCoberturasResgistradas=[coberturaCompleta,coberturaSimple,coberturaSimpleGranizo,coberturaSimpleRuedas];
+
+ var año2020 = new AñosModelo('2020','100');
+ var año2019 = new AñosModelo('2019','200');
+ var año2018 = new AñosModelo('2018','300');
+ var año2017 = new AñosModelo('2017','400');
+ var año2016 = new AñosModelo('2016','500');
+
+ var listaAñosVehiculos= [año2020,año2019,año2018,año2017,año2016];
+
+ /* INTERACCIÓN HTML  */
+
+llenarSelect(listadoMarcasRegistradas,"marcaVehiculo");
+llenarSelect(listadoCoberturasResgistradas,"coberturaVehiculo");
+llenarSelect(listadoVehiculosRegistrados,"tipoVehiculo");
+llenarSelect(listaAñosVehiculos,"añoVehiculo");
+
+function llenarSelect(listadoArray,idListado){
+    const listaHtml = document.getElementById(idListado);
+    listadoArray.forEach((element) => {
+    const listaHtml = document.getElementById(idListado);
+    var opcion = document.createElement("option");
+    opcion.value = element.nombre;
+    opcion.text = element.nombre;
+    listaHtml.appendChild(opcion);
+     });
+}
+
 
 const formularioPoliza = document.getElementById('poliza');
 
 formularioPoliza.addEventListener('submit', function(e){
     e.preventDefault();
+    var poliza = new PolizaSeguro()
     const vehiculo = document.getElementById('tipoVehiculo');
-    const tipoVehiculoSelect = vehiculo.options[vehiculo.selectedIndex].value;
+    listadoVehiculosRegistrados.forEach(element => {
+        if (element.nombre==vehiculo.options[vehiculo.selectedIndex].value){
+            poliza.tipoVehiculo=listadoVehiculosRegistrados.element;
+        }
+    });
 
     const año = document.getElementById('añoVehiculo');
-    const añoSelect = año.options[año.selectedIndex].value;
+    listadoVehiculosRegistrados.forEach(element => {
+        if (element.nombre==año.options[año.selectedIndex].value){
+            poliza.añoVehiculo=listadoVehiculosRegistrados.element;
+        }
+    });
+    
     
     const marca = document.getElementById('marcaVehiculo');
-    const marcaSelect = marca.options[marca.selectedIndex].value;
+    listadoVehiculosRegistrados.forEach(element => {
+        if (element.nombre==marca.options[marca.selectedIndex].value){
+            poliza.marcaVehiculo=listadoVehiculosRegistrados.element;
+        }
+    });
+    
     
     const cobertura = document.getElementById('coberturaVehiculo');
-    const coberturaSelect = cobertura.options[cobertura.selectedIndex].value;
-
-    const poliza = new PolizaSeguro(tipoVehiculoSelect,añoSelect,marcaSelect,coberturaSelect)
-
-    alert(poliza.cotizarSeguro());
-    console.log(poliza.tipoDeVehiculo);
-    console.log(poliza.cotizarSeguro());
-    /* alert('Se ha enviado con éxito su poliza'); */
+    listadoVehiculosRegistrados.forEach(element => {
+        if (element.nombre==cobertura.options[cobertura.selectedIndex].value){
+            poliza.coberturaVehiculo=listadoVehiculosRegistrados.element;
+        }
+    });
+    
+    alert(poliza.marcaVehiculo.nombre);
 });
+
