@@ -117,14 +117,23 @@ formularioPoliza.addEventListener('submit', function(e){
         poliza.marcaVehiculo=buscadorObjetos(listadoMarcasRegistradas,marca.options[marca.selectedIndex].value);
         poliza.coberturaVehiculo=buscadorObjetos(listadoCoberturasResgistradas,cobertura.options[cobertura.selectedIndex].value);
         
-        
+        const respuestaAnterrior = document.getElementById('resultadoPoliza');
+          if(respuestaAnterrior != null) {
+            respuestaAnterrior.remove();
+          }
         mostrarResultado(poliza.cotizarSeguro());
 });
 
 function mostrarResultado(resultado){
     const resultadohtml=document.getElementById('resultado');
     var p= document.createElement("p");
+    p.id="resultadoPoliza";
     p.innerHTML= "El valor de tu Seguro es: " + resultado ;
-    resultadohtml.appendChild(p);
+    const spinner= document.getElementById('spinner')
+    spinner.style.display='block';
+    setTimeout(function() {
+        spinner.style.display = 'none';
+        resultadohtml.appendChild(p);
+   }, 3000);
     
 }
