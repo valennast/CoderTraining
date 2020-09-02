@@ -107,25 +107,24 @@ const formularioPoliza = document.getElementById('poliza');
 
 formularioPoliza.addEventListener('submit', function(e){
     e.preventDefault();
-    
+    const año = document.getElementById('añoVehiculo');
     const vehiculo = document.getElementById('tipoVehiculo');
+    const marca = document.getElementById('marcaVehiculo');
+    const cobertura = document.getElementById('coberturaVehiculo');
      
         poliza.tipoVehiculo=buscadorObjetos(listadoVehiculosRegistrados,vehiculo.options[vehiculo.selectedIndex].value);
-        
-    const año = document.getElementById('añoVehiculo');
-    
         poliza.añoVehiculo=buscadorObjetos(listaAñosVehiculos,año.options[año.selectedIndex].value);
-
-    const marca = document.getElementById('marcaVehiculo');
-    
         poliza.marcaVehiculo=buscadorObjetos(listadoMarcasRegistradas,marca.options[marca.selectedIndex].value);
-            
-    const cobertura = document.getElementById('coberturaVehiculo');
-        
         poliza.coberturaVehiculo=buscadorObjetos(listadoCoberturasResgistradas,cobertura.options[cobertura.selectedIndex].value);
-
-
-              
-    alert(poliza.cotizarSeguro());
+        
+        
+        mostrarResultado(poliza.cotizarSeguro());
 });
 
+function mostrarResultado(resultado){
+    const resultadohtml=document.getElementById('resultado');
+    var p= document.createElement("p");
+    p.innerHTML= "El valor de tu Seguro es: " + resultado ;
+    resultadohtml.appendChild(p);
+    
+}
