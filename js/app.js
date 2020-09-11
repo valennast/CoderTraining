@@ -60,11 +60,37 @@ class AñosModelo{
  var listaAñosVehiculos= [año2020,año2019,año2018,año2017,año2016];
 
  /* INTERACCIÓN HTML  */
+window.onload= () => {
 
-llenarSelect(listadoMarcasRegistradas,"marcaVehiculo");
-llenarSelect(listadoCoberturasResgistradas,"coberturaVehiculo");
-llenarSelect(listadoVehiculosRegistrados,"tipoVehiculo");
-llenarSelect(listaAñosVehiculos,"añoVehiculo");
+    
+    llenarSelect(listadoMarcasRegistradas,"marcaVehiculo");
+    llenarSelect(listadoCoberturasResgistradas,"coberturaVehiculo");
+    llenarSelect(listadoVehiculosRegistrados,"tipoVehiculo");
+    llenarSelect(listaAñosVehiculos,"añoVehiculo");
+}
+
+function mostrarMensaje(mensaje, tipo) {
+    //Creo un div para mostrar el mensaje
+    const div = document.createElement('div');
+  
+    if (tipo === 'error') {
+      div.classList.add('error');
+    } else {
+      div.classList.add('correcto');
+    }
+  
+    //Agrego clases y contenido al div
+    div.textContent = mensaje;
+  
+    // Insertar en el HTML
+    const formulario = document.getElementById('poliza');
+    formulario.insertBefore(div, document.getElementById('resultado'));
+  
+    //Mantener el mensaje por 2 segundos y después borrarlo
+    setTimeout(() => {
+      div.remove();
+    }, 3000);
+  }
 
 function llenarSelect(listadoArray,idListado){
     const listaHtml = document.getElementById(idListado);
@@ -107,33 +133,56 @@ const formularioPoliza = document.getElementById('poliza');
 
 formularioPoliza.addEventListener('submit', function(e){
     e.preventDefault();
+    
     const año = document.getElementById('añoVehiculo');
     const vehiculo = document.getElementById('tipoVehiculo');
     const marca = document.getElementById('marcaVehiculo');
     const cobertura = document.getElementById('coberturaVehiculo');
+    if (vehiculo.options[vehiculo.selectedIndex].value === '' || año.options[año.selectedIndex].value === '' || marca.options[marca.selectedIndex].value === '' || cobertura.options[cobertura.selectedIndex].value === '') {
+        mostrarMensaje('Todos los campos son obligatorios', 'error');
+        return;
+      }
+    
+      mostrarMensaje('Cotizando...', 'exito');
      
         poliza.tipoVehiculo=buscadorObjetos(listadoVehiculosRegistrados,vehiculo.options[vehiculo.selectedIndex].value);
         poliza.añoVehiculo=buscadorObjetos(listaAñosVehiculos,año.options[año.selectedIndex].value);
         poliza.marcaVehiculo=buscadorObjetos(listadoMarcasRegistradas,marca.options[marca.selectedIndex].value);
         poliza.coberturaVehiculo=buscadorObjetos(listadoCoberturasResgistradas,cobertura.options[cobertura.selectedIndex].value);
+
         
-        const respuestaAnterrior = document.getElementById('resultadoPoliza');
+
+
+        const respuestaAnterrior = document.getElementById('resultadoDiv');
           if(respuestaAnterrior != null) {
             respuestaAnterrior.remove();
           }
-        mostrarResultado(poliza.cotizarSeguro());
+        mostrarResultado(poliza);
 });
 
-function mostrarResultado(resultado){
+function mostrarResultado(poliza){
     const resultadohtml=document.getElementById('resultado');
-    var p= document.createElement("p");
+   /*  var p= document.createElement("p");
     p.id="resultadoPoliza";
-    p.innerHTML= "El valor de tu Seguro es: " + resultado ;
+    p.innerHTML= "El valor de tu Seguro es: "; */
+    var div = document.createElement("div");
+    div.id="resultadoDiv";
+    div.classList.add('mt-10');
+    div.innerHTML=` 
+    <p class="header">Resumen Cotización </p>
+    <p class="font-bold">Tipo de Vehiculo: ${tipoVehiculo.value} </p>
+    <p class="font-bold">Marca: ${marcaVehiculo.value} </p>
+    <p class="font-bold">Año: ${añoVehiculo.value} </p>
+    <p class="font-bold">Tipo de Cobertura: ${coberturaVehiculo.value}  </p>
+    <p class="font-bold">Valor Poliza: ${poliza.cotizarSeguro()}</p> 
+    `;
     const spinner= document.getElementById('spinner')
     spinner.style.display='block';
     setTimeout(function() {
         spinner.style.display = 'none';
-        resultadohtml.appendChild(p);
-   }, 3000);
+        /* resultadohtml.appendChild(p); */
+        resultadohtml.appendChild(div);
+    }, 3000);
     
+   
 }
