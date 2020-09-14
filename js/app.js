@@ -30,43 +30,44 @@ class AñosModelo{
         
 }
 
-/* VARIABLES Y ARRAYS */
+/* Base de dato Formato JSON */
 
- var marcaFord = new MarcasVehiculos('Ford',250);
- var marcaPeugeot = new MarcasVehiculos('Peugeot',300);
- var marcaVolkswagen = new MarcasVehiculos('Volkswagen',350);
- var marcaToyota = new MarcasVehiculos('Toyota',400);
+var marcas = [{"marca": "Ford","precio": 250},
+{"marca": "Peugeot","precio": 300},
+{"marca": "Volkswagen","precio": 350},
+{"marca": "Toyota","precio": 400}];
 
- var listadoMarcasRegistradas=[marcaFord,marcaPeugeot,marcaVolkswagen,marcaToyota];
+var tipos=[{"tipo": "Camioneta","precio": 1500},{"tipo": "Auto","precio": 1000}];
 
- var camioneta = new TipoVehiculos ('Camioneta',1500);
- var auto = new TipoVehiculos ('Auto',1000);   
+var coberturas =[{"cobertura": "Simple","precio": 300},
+{"cobertura": "Completa","precio": 750},
+{"cobertura": "Simple con granizo","precio": 350},
+{"cobertura": "Simple con ruedas","precio": 400}];
 
- var listadoVehiculosRegistrados=[camioneta,auto];
 
- var coberturaSimple= new TiposCobertura('Simple',300);
- var coberturaCompleta= new TiposCobertura('Completa',750);
- var coberturaSimpleGranizo= new TiposCobertura('Simple con granizo',350);
- var coberturaSimpleRuedas= new TiposCobertura('Simple con ruedas',400);
+var years =[{"year": "2020","precio": 100},
+{"year": "2019","precio": 200},
+{"year": "2018","precio": 300},
+{"year": "2017","precio": 400},
+{"year": "2016","precio": 500}];
 
- var listadoCoberturasResgistradas=[coberturaCompleta,coberturaSimple,coberturaSimpleGranizo,coberturaSimpleRuedas];
-
- var año2020 = new AñosModelo('2020',100);
- var año2019 = new AñosModelo('2019',200);
- var año2018 = new AñosModelo('2018',300);
- var año2017 = new AñosModelo('2017',400);
- var año2016 = new AñosModelo('2016',500);
-
- var listaAñosVehiculos= [año2020,año2019,año2018,año2017,año2016];
 
  /* INTERACCIÓN HTML  */
 window.onload= () => {
+    const selectMarca = document.querySelector('#marcaVehiculo');
+    const selectCobertura = document.querySelector('#coberturaVehiculo');
+    const selectTipo = document.querySelector('#tipoVehiculo');
+    const selectYear = document.querySelector('#añoVehiculo');
 
+   const listadoMarcasRegistradas=listaSelect(marcas,"marca");
+   const listadoCoberturasResgistradas=listaSelect(coberturas,"cobertura");
+   const listadoVehiculosRegistrados=listaSelect(tipos,"tipo");
+   const listaAñosVehiculos=listaSelect(years,"year");
     
-    llenarSelect(listadoMarcasRegistradas,"marcaVehiculo");
-    llenarSelect(listadoCoberturasResgistradas,"coberturaVehiculo");
-    llenarSelect(listadoVehiculosRegistrados,"tipoVehiculo");
-    llenarSelect(listaAñosVehiculos,"añoVehiculo");
+    llenarSelect(listadoMarcasRegistradas,selectMarca);
+    llenarSelect(listadoCoberturasResgistradas,selectCobertura);
+    llenarSelect(listadoVehiculosRegistrados,selectTipo);
+    llenarSelect(listaAñosVehiculos,selectYear);
 }
 
 function mostrarMensaje(mensaje, tipo) {
@@ -86,30 +87,42 @@ function mostrarMensaje(mensaje, tipo) {
     const formulario = document.getElementById('poliza');
     formulario.insertBefore(div, document.getElementById('resultado'));
   
-    //Mantener el mensaje por 2 segundos y después borrarlo
+    //Mantener el mensaje por 3 segundos y después borrarlo
     setTimeout(() => {
       div.remove();
     }, 3000);
   }
 
+  function listaSelect(array, key) {
+    const listado = [];
+  
+    array.forEach(elem => {
+      if (!listado.includes(elem[key])) {
+        listado.push(elem[key]);
+      }
+    })
+    return listado.sort();
+  }
+
 function llenarSelect(listadoArray,idListado){
-    const listaHtml = document.getElementById(idListado);
+    
     listadoArray.forEach((element) => {
-    const listaHtml = document.getElementById(idListado);
     var opcion = document.createElement("option");
-    opcion.value = element.nombre;
-    opcion.text = element.nombre;
-    listaHtml.appendChild(opcion);
+    opcion.value = element;
+    opcion.text = element;
+    idListado.appendChild(opcion);
      });
 }
 
-function buscadorObjetos(listadoArray,objetoABuscar){
+function buscadorObjetos(baseDatos,nombreObjeto,llave){
     var objetoEncontrado;
-    listadoArray.forEach((element) => {
-            if (element.nombre==objetoABuscar){
-                objetoEncontrado=element;
-            }
-     });
+     for (let index = 0; index < baseDatos.length; index++) {
+        if (nombreObjeto==baseDatos[index].llave){
+            objetoEncontrado=baseDatos[index].precio;
+        }
+         
+     }
+
      return objetoEncontrado;
 }
 
@@ -122,33 +135,34 @@ class PolizaSeguro {
     }
     cotizarSeguro(){
         
-        return this.tipoVehiculo.valor+this.marcaVehiculo.valor+this.añoVehiculo.valor+this.coberturaVehiculo.valor;
+        return this.tipoVehiculo+this.marcaVehiculo+this.añoVehiculo+this.coberturaVehiculo;
     }
 };
 
 
-var poliza = new PolizaSeguro();
 
+const poliza = new PolizaSeguro();
 const formularioPoliza = document.getElementById('poliza');
 
 formularioPoliza.addEventListener('submit', function(e){
     e.preventDefault();
     
-    const año = document.getElementById('añoVehiculo');
-    const vehiculo = document.getElementById('tipoVehiculo');
-    const marca = document.getElementById('marcaVehiculo');
-    const cobertura = document.getElementById('coberturaVehiculo');
-    if (vehiculo.options[vehiculo.selectedIndex].value === '' || año.options[año.selectedIndex].value === '' || marca.options[marca.selectedIndex].value === '' || cobertura.options[cobertura.selectedIndex].value === '') {
+    const yearSelect =  document.querySelector('#añoVehiculo').value;
+    const vehiculoSelect =document.querySelector('#tipoVehiculo').value;
+    const marcaSelect =document.querySelector('#marcaVehiculo').value;
+    const coberturaSelect =document.querySelector('#coberturaVehiculo').value;
+    if (yearSelect === '' || vehiculoSelect === '' || marcaSelect === '' || coberturaSelect === '') {
         mostrarMensaje('Todos los campos son obligatorios', 'error');
         return;
       }
     
       mostrarMensaje('Cotizando...', 'exito');
      
-        poliza.tipoVehiculo=buscadorObjetos(listadoVehiculosRegistrados,vehiculo.options[vehiculo.selectedIndex].value);
-        poliza.añoVehiculo=buscadorObjetos(listaAñosVehiculos,año.options[año.selectedIndex].value);
-        poliza.marcaVehiculo=buscadorObjetos(listadoMarcasRegistradas,marca.options[marca.selectedIndex].value);
-        poliza.coberturaVehiculo=buscadorObjetos(listadoCoberturasResgistradas,cobertura.options[cobertura.selectedIndex].value);
+      
+        poliza.tipoVehiculo=buscadorObjetos(tipos,vehiculoSelect,"tipo");
+        poliza.añoVehiculo=buscadorObjetos(years,yearSelect,"year");
+        poliza.marcaVehiculo=buscadorObjetos(marcas,marcaSelect,"marca");
+        poliza.coberturaVehiculo=buscadorObjetos(coberturas,coberturaSelect,"cobertura");
 
         
 
