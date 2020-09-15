@@ -32,24 +32,24 @@ class AñosModelo{
 
 /* Base de dato Formato JSON */
 
-var marcas = [{"marca": "Ford","precio": 250},
-{"marca": "Peugeot","precio": 300},
-{"marca": "Volkswagen","precio": 350},
-{"marca": "Toyota","precio": 400}];
+var marcas = [{"nombre": "Ford","precio": 250},
+{"nombre": "Peugeot","precio": 300},
+{"nombre": "Volkswagen","precio": 350},
+{"nombre": "Toyota","precio": 400}];
 
-var tipos=[{"tipo": "Camioneta","precio": 1500},{"tipo": "Auto","precio": 1000}];
+var tipos=[{"nombre": "Camioneta","precio": 1500},{"nombre": "Auto","precio": 1000}];
 
-var coberturas =[{"cobertura": "Simple","precio": 300},
-{"cobertura": "Completa","precio": 750},
-{"cobertura": "Simple con granizo","precio": 350},
-{"cobertura": "Simple con ruedas","precio": 400}];
+var coberturas =[{"nombre": "Simple","precio": 300},
+{"nombre": "Completa","precio": 750},
+{"nombre": "Simple con granizo","precio": 350},
+{"nombre": "Simple con ruedas","precio": 400}];
 
 
-var years =[{"year": "2020","precio": 100},
-{"year": "2019","precio": 200},
-{"year": "2018","precio": 300},
-{"year": "2017","precio": 400},
-{"year": "2016","precio": 500}];
+var years =[{"nombre": "2020","precio": 100},
+{"nombre": "2019","precio": 200},
+{"nombre": "2018","precio": 300},
+{"nombre": "2017","precio": 400},
+{"nombre": "2016","precio": 500}];
 
 
  /* INTERACCIÓN HTML  */
@@ -59,10 +59,10 @@ window.onload= () => {
     const selectTipo = document.querySelector('#tipoVehiculo');
     const selectYear = document.querySelector('#añoVehiculo');
 
-   const listadoMarcasRegistradas=listaSelect(marcas,"marca");
-   const listadoCoberturasResgistradas=listaSelect(coberturas,"cobertura");
-   const listadoVehiculosRegistrados=listaSelect(tipos,"tipo");
-   const listaAñosVehiculos=listaSelect(years,"year");
+   const listadoMarcasRegistradas=listaSelect(marcas,"nombre");
+   const listadoCoberturasResgistradas=listaSelect(coberturas,"nombre");
+   const listadoVehiculosRegistrados=listaSelect(tipos,"nombre");
+   const listaAñosVehiculos=listaSelect(years,"nombre");
     
     llenarSelect(listadoMarcasRegistradas,selectMarca);
     llenarSelect(listadoCoberturasResgistradas,selectCobertura);
@@ -114,11 +114,11 @@ function llenarSelect(listadoArray,idListado){
      });
 }
 
-function buscadorObjetos(baseDatos,nombreObjeto,llave){
+function buscadorObjetos(baseDatos,nombreObjeto){
     var objetoEncontrado;
      for (let index = 0; index < baseDatos.length; index++) {
-        if (nombreObjeto==baseDatos[index].llave){
-            objetoEncontrado=baseDatos[index].precio;
+        if (nombreObjeto==baseDatos[index].nombre){
+            objetoEncontrado=baseDatos[index];
         }
          
      }
@@ -135,7 +135,7 @@ class PolizaSeguro {
     }
     cotizarSeguro(){
         
-        return this.tipoVehiculo+this.marcaVehiculo+this.añoVehiculo+this.coberturaVehiculo;
+        return this.tipoVehiculo.precio+this.marcaVehiculo.precio+this.añoVehiculo.precio+this.coberturaVehiculo.precio;
     }
 };
 
@@ -157,21 +157,20 @@ formularioPoliza.addEventListener('submit', function(e){
       }
     
       mostrarMensaje('Cotizando...', 'exito');
-     
       
-        poliza.tipoVehiculo=buscadorObjetos(tipos,vehiculoSelect,"tipo");
-        poliza.añoVehiculo=buscadorObjetos(years,yearSelect,"year");
-        poliza.marcaVehiculo=buscadorObjetos(marcas,marcaSelect,"marca");
-        poliza.coberturaVehiculo=buscadorObjetos(coberturas,coberturaSelect,"cobertura");
-
-        
-
+        poliza.tipoVehiculo=buscadorObjetos(tipos,vehiculoSelect);
+        poliza.añoVehiculo=buscadorObjetos(years,yearSelect);
+        poliza.marcaVehiculo=buscadorObjetos(marcas,marcaSelect);
+        poliza.coberturaVehiculo=buscadorObjetos(coberturas,coberturaSelect);
 
         const respuestaAnterrior = document.getElementById('resultadoDiv');
           if(respuestaAnterrior != null) {
-            respuestaAnterrior.remove();
+            respuestaAnterrior.remove(); 
           }
+
         mostrarResultado(poliza);
+
+        localStorage.setItem('Valor Poliza', poliza.cotizarSeguro());
 });
 
 function mostrarResultado(poliza){
@@ -198,5 +197,4 @@ function mostrarResultado(poliza){
         resultadohtml.appendChild(div);
     }, 3000);
     
-   
 }
