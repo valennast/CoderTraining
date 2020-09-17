@@ -163,21 +163,23 @@ formularioPoliza.addEventListener('submit', function(e){
         poliza.marcaVehiculo=buscadorObjetos(marcas,marcaSelect);
         poliza.coberturaVehiculo=buscadorObjetos(coberturas,coberturaSelect);
 
-        const respuestaAnterrior = document.getElementById('resultadoDiv');
+        const respuestaAnterrior = $('#resultadoDiv');
           if(respuestaAnterrior != null) {
             respuestaAnterrior.remove(); 
+            
           }
 
         mostrarResultado(poliza);
+        
+          
+        
 
         localStorage.setItem('Valor Poliza', poliza.cotizarSeguro());
 });
 
 function mostrarResultado(poliza){
     const resultadohtml=document.getElementById('resultado');
-   /*  var p= document.createElement("p");
-    p.id="resultadoPoliza";
-    p.innerHTML= "El valor de tu Seguro es: "; */
+
     var div = document.createElement("div");
     div.id="resultadoDiv";
     div.classList.add('mt-10');
@@ -189,12 +191,15 @@ function mostrarResultado(poliza){
     <p class="font-bold">Tipo de Cobertura: ${coberturaVehiculo.value}  </p>
     <p class="font-bold">Valor Poliza: ${poliza.cotizarSeguro()}</p> 
     `;
-    const spinner= document.getElementById('spinner')
-    spinner.style.display='block';
+    /* const spinner= document.getElementById('spinner')
+    spinner.style.display='block'; */
+    $('#spinner').show();
     setTimeout(function() {
-        spinner.style.display = 'none';
-        /* resultadohtml.appendChild(p); */
+        /* spinner.style.display = 'none'; */
+        
+        $('#spinner').hide();
         resultadohtml.appendChild(div);
+        
     }, 3000);
     
 }
